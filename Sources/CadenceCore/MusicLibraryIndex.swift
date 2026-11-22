@@ -103,10 +103,10 @@ public struct MusicLibraryIndex: Sendable {
             guard !name.isEmpty else { continue }
             artistGroups[name, default: []].append(track)
         }
-        let artists = artistGroups.map { name, tracks in
+        let artists: [MusicArtist] = artistGroups.map { name, tracks -> MusicArtist in
             let keys = Set(tracks.map(\.albumKey))
-            let artistAlbums = keys.compactMap { albumsByKey[$0] }.sorted {
-                $0.title.localizedStandardCompare($1.title) == .orderedAscending
+            let artistAlbums: [MusicAlbum] = keys.compactMap { albumsByKey[$0] }.sorted { lhs, rhs in
+                lhs.title.localizedStandardCompare(rhs.title) == .orderedAscending
             }
             return MusicArtist(
                 id: MusicText.normalized(name),
@@ -114,7 +114,9 @@ public struct MusicLibraryIndex: Sendable {
                 albums: artistAlbums,
                 tracks: tracks.sorted { $0.title.localizedStandardCompare($1.title) == .orderedAscending }
             )
-        }.sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
+        }.sorted { lhs, rhs in
+            lhs.name.localizedStandardCompare(rhs.name) == .orderedAscending
+        }
 
         let playlists = snapshot.playlists
             .filter { !$0.isFolder && !$0.isLibrary && !$0.isMusic && $0.trackCount > 0 }
