@@ -6,6 +6,8 @@
 
 <p align="center">A native, keyboard-first browser for your Apple Music library. No Electron.</p>
 
+<p align="center"><a href="https://github.com/alexandryasukaitisss-cmd/cadence-macos/actions/workflows/ci.yml"><img src="https://github.com/alexandryasukaitisss-cmd/cadence-macos/actions/workflows/ci.yml/badge.svg" alt="ci"></a></p>
+
 Cadence reads your Music.app library through AppleScript, caches it locally, and gives it a fast SwiftUI interface: songs, albums, artists, playlists, search, favorites, recently added, and artwork. Playback stays in Music.app, so Apple Music subscription playback, Lossless, and Dolby Atmos keep working exactly as Apple implements them.
 
 Version 0.1.0. macOS 14 or newer. Not affiliated with Apple.
