@@ -1,0 +1,18 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test
+        run: swift test --scratch-path .build
+      - name: Build app
+        run: CADENCE_APP_DIR="$RUNNER_TEMP/Cadence.app" ./scripts/build_app.sh
