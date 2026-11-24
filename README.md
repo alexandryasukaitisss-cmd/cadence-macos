@@ -12,9 +12,19 @@ Cadence opens your Music.app library in a fast native window: songs, albums, art
 
 Playback stays in Music.app. Your Apple Music subscription, Lossless, and Dolby Atmos settings keep working as Apple implements them; Cadence only sends play, pause, next, and seek commands.
 
-Version 0.1.0. macOS 14 or newer. Not affiliated with Apple.
+Version 0.1.1. macOS 14 or newer. Not affiliated with Apple.
 
 Русская версия: [README.ru.md](README.ru.md).
+
+![Cadence native macOS interface preview (synthetic demo library)](docs/preview.png)
+
+## Quick install
+
+```bash
+brew install --cask alexandryasukaitisss-cmd/tap/cadence
+```
+
+Or download `Cadence-0.1.1-macos-arm64.zip` from [GitHub Releases](https://github.com/alexandryasukaitisss-cmd/cadence-macos/releases/latest) (ad-hoc signed; run `xattr -dr com.apple.quarantine /Applications/Cadence.app` once if blocked by Gatekeeper).
 
 ## What is in this release
 
@@ -30,6 +40,23 @@ Version 0.1.0. macOS 14 or newer. Not affiliated with Apple.
 - No automatic playlist creation or deletion in your Music library.
 - No system-wide media-key takeover or Now Playing registration. Cadence controls playback inside its own window; Music.app keeps its own system integration.
 - No DRM bypass, no downloaded catalog, no Apple Music web player. Playback is a command to Music.app.
+
+## Why it feels closer to a Spotify community client
+
+Community Spotify clients do not usually replace Spotify's streaming engine. They keep it as the backend and put a faster, keyboard-first shell around it. Cadence uses the same pattern for Apple Music: Music.app remains the playback engine, while the library, search, and controls live in a native shell.
+
+What actually makes it feel faster:
+
+- **Native window, not a web wrapper.** The library and player are SwiftUI/AppKit, not an Electron page.
+- **Cache before Music.** Cadence opens from a local library snapshot. Music does not need to launch just to show your songs.
+- **Two Apple events per refresh.** Tracks and playlists are read in batches, not one AppleScript call per song.
+- **Search stays in memory.** Typing searches a local index; it does not ask Music on every keystroke.
+- **Keyboard first.** `⌘K` command palette, `⌘F` search, `⌘1`/`⌘2`, Space, arrows, mini-player, and menu-bar controls.
+- **Artwork is cached.** Covers are loaded lazily and kept on disk; scrolling does not re-query Music for every tile.
+
+Apple Podcasts is different. The private build (not included in this public repository) embeds the official web player in a separate tab and bridges its play state, so you get one window and one set of controls instead of switching apps. This public build opens the official catalog in your browser: one click, no Apple credentials stored by Cadence, but still Apple's web player. We cannot make that player faster than Apple makes it. The gain is in the native shell, fast switching, local library, and controls around it, not in Spotify-style streaming parity.
+
+This is a usability comparison, not a claim that Apple exposes the same APIs as Spotify. Cadence does not bypass DRM or replace Music.app/Apple Podcasts.
 
 ## Requirements
 
