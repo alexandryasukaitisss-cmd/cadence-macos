@@ -22,9 +22,14 @@ struct SettingsView: View {
 
 private struct GeneralSettingsView: View {
     @EnvironmentObject private var model: AppModel
+    @EnvironmentObject private var updater: GitHubCommitUpdater
 
     var body: some View {
         Form {
+            Section("Обновления с GitHub") {
+                CommitUpdateRowView(updater: updater)
+            }
+
             Section("Интерфейс") {
                 HStack {
                     VStack(alignment: .leading, spacing: 2) {
@@ -215,7 +220,7 @@ private struct AboutSettingsView: View {
 
             Text("Cadence")
                 .font(.system(size: 24, weight: .bold))
-            Text("Версия 0.1.1 · нативная медиатека Apple Music")
+            Text("Версия 0.2.0 · нативная медиатека Apple Music")
                 .font(.system(size: 11))
                 .foregroundStyle(.secondary)
 

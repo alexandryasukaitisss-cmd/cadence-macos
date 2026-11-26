@@ -6,6 +6,11 @@ import SwiftUI
 struct CadenceApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     @StateObject private var model = AppModel()
+    @StateObject private var updater = GitHubCommitUpdater(
+        repository: "alexandryasukaitisss-cmd/cadence-macos",
+        bundleName: "Cadence.app",
+        executableName: "Cadence"
+    )
 
     var body: some Scene {
         WindowGroup("Cadence", id: "main") {
@@ -14,12 +19,13 @@ struct CadenceApp: App {
                 .environmentObject(model.playback)
                 .environmentObject(model.music)
                 .environmentObject(model.artwork)
+                .environmentObject(updater)
         }
         .windowStyle(.hiddenTitleBar)
         .defaultSize(width: 1180, height: 780)
         .windowResizability(.contentMinSize)
         .commands {
-            CadenceCommands(model: model)
+            CadenceCommands(model: model, updater: updater)
         }
 
         Settings {
@@ -28,6 +34,7 @@ struct CadenceApp: App {
                 .environmentObject(model.playback)
                 .environmentObject(model.music)
                 .environmentObject(model.artwork)
+                .environmentObject(updater)
         }
 
         MenuBarExtra {
@@ -35,6 +42,7 @@ struct CadenceApp: App {
                 .environmentObject(model)
                 .environmentObject(model.playback)
                 .environmentObject(model.music)
+                .environmentObject(updater)
         } label: {
             Label("Cadence", systemImage: menuBarIcon)
         }
@@ -88,9 +96,22 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
 struct CadenceCommands: Commands {
     @ObservedObject var model: AppModel
+    @ObservedObject var updater: GitHubCommitUpdater
 
     var body: some Commands {
         CommandGroup(replacing: .newItem) {}
+        CommandGroup(after: .appInfo) {
+            if let candidate = updater.availableUpdate {
+                Button("Обновить до коммита \(candidate.shortSHA)…") {
+                    updater.installAvailableUpdate()
+                }
+            } else {
+                Button("Проверить обновления…") {
+                    updater.checkForUpdates(manual: true)
+                    model.openSettings()
+                }
+            }
+        }
 
         CommandMenu("Воспроизведение") {
             Button(model.playback.snapshot?.isPlaying == true ? "Пауза" : "Играть") {
@@ -153,6 +174,7 @@ struct CadenceCommands: Commands {
 private struct MenuBarPanel: View {
     @EnvironmentObject private var model: AppModel
     @EnvironmentObject private var playback: PlaybackCoordinator
+    @EnvironmentObject private var updater: GitHubCommitUpdater
     @Environment(\.openWindow) private var openWindow
 
     var body: some View {
@@ -247,6 +269,11 @@ private struct MenuBarPanel: View {
             }
             Button("Настройки…") {
                 model.openSettings()
+            }
+            if let candidate = updater.availableUpdate {
+                Button("Обновить до \(candidate.shortSHA)…") {
+                    updater.installAvailableUpdate()
+                }
             }
             Divider()
             Button("Выйти из Cadence") {

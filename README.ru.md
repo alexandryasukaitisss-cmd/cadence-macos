@@ -10,7 +10,7 @@ Cadence открывает вашу медиатеку Music.app в быстро
 
 Воспроизведение остаётся в Music.app. Подписка Apple Music, Lossless и Dolby Atmos работают так, как их реализует Apple; Cadence только отправляет команды play, pause, next и seek.
 
-Версия 0.1.1. macOS 14 или новее. Проект не связан с Apple.
+Версия 0.2.0. macOS 14 или новее. Проект не связан с Apple.
 
 English version: [README.md](README.md).
 
@@ -22,7 +22,7 @@ English version: [README.md](README.md).
 brew install --cask alexandryasukaitisss-cmd/tap/cadence
 ```
 
-Либо скачай `Cadence-0.1.1-macos-arm64.zip` из [GitHub Releases](https://github.com/alexandryasukaitisss-cmd/cadence-macos/releases/latest), распакуй и перенеси `Cadence.app` в `/Applications`.
+Либо скачай `Cadence-0.2.0-macos-arm64.zip` из [GitHub Releases](https://github.com/alexandryasukaitisss-cmd/cadence-macos/releases/latest), распакуй и перенеси `Cadence.app` в `/Applications`.
 
 > [!NOTE]
 > **Первый запуск на macOS (без платной нотаризации Apple):** Готовые сборки подписаны ad-hoc, поэтому при первом запуске Gatekeeper покажет предупреждение *«Apple не удалось подтвердить, что файл «Cadence» не содержит вредоносного ПО»*. Чтобы открыть один раз:
