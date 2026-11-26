@@ -24,7 +24,12 @@ Version 0.1.1. macOS 14 or newer. Not affiliated with Apple.
 brew install --cask alexandryasukaitisss-cmd/tap/cadence
 ```
 
-Or download `Cadence-0.1.1-macos-arm64.zip` from [GitHub Releases](https://github.com/alexandryasukaitisss-cmd/cadence-macos/releases/latest) (ad-hoc signed; run `xattr -dr com.apple.quarantine /Applications/Cadence.app` once if blocked by Gatekeeper).
+Or download `Cadence-0.1.1-macos-arm64.zip` from [GitHub Releases](https://github.com/alexandryasukaitisss-cmd/cadence-macos/releases/latest), unzip, and move `Cadence.app` to `/Applications`.
+
+> [!NOTE]
+> **First launch on macOS (not Apple-notarized):** Prebuilt releases are ad-hoc signed, so macOS Gatekeeper will show *"Apple could not verify 'Cadence' is free of malware"* on first launch. To open it once:
+> - **Without Terminal:** click **Done** (not *Move to Trash*), open **System Settings → Privacy & Security**, scroll down to **Security**, and click **Open Anyway**.
+> - **Or via Terminal:** `xattr -dr com.apple.quarantine /Applications/Cadence.app`
 
 ## What is in this release
 
@@ -81,7 +86,7 @@ open build/Cadence.app
 CADENCE_APP_DIR="$HOME/Applications/Cadence.app" ./scripts/build_app.sh
 ```
 
-The app is not notarized. On first launch, right-click → **Open**, or remove the quarantine flag:
+The app is not notarized. If macOS Gatekeeper blocks first launch, click **Done** → **System Settings → Privacy & Security → Open Anyway**, or remove the quarantine flag:
 
 ```sh
 xattr -dr com.apple.quarantine build/Cadence.app

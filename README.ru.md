@@ -22,7 +22,12 @@ English version: [README.md](README.md).
 brew install --cask alexandryasukaitisss-cmd/tap/cadence
 ```
 
-Либо скачай `Cadence-0.1.1-macos-arm64.zip` из [GitHub Releases](https://github.com/alexandryasukaitisss-cmd/cadence-macos/releases/latest) (ad-hoc подпись; при предупреждении Gatekeeper выполни один раз `xattr -dr com.apple.quarantine /Applications/Cadence.app`).
+Либо скачай `Cadence-0.1.1-macos-arm64.zip` из [GitHub Releases](https://github.com/alexandryasukaitisss-cmd/cadence-macos/releases/latest), распакуй и перенеси `Cadence.app` в `/Applications`.
+
+> [!NOTE]
+> **Первый запуск на macOS (без платной нотаризации Apple):** Готовые сборки подписаны ad-hoc, поэтому при первом запуске Gatekeeper покажет предупреждение *«Apple не удалось подтвердить, что файл «Cadence» не содержит вредоносного ПО»*. Чтобы открыть один раз:
+> - **Без Терминала:** нажмите **«Готово»** (не *«Переместить в Корзину»*), откройте **Системные настройки → Конфиденциальность и безопасность**, прокрутите до блока **Безопасность** и нажмите **«Всё равно открыть»**.
+> - **Или через Терминал:** `xattr -dr com.apple.quarantine /Applications/Cadence.app`
 
 ## Что входит в релиз
 
@@ -79,7 +84,7 @@ open build/Cadence.app
 CADENCE_APP_DIR="$HOME/Applications/Cadence.app" ./scripts/build_app.sh
 ```
 
-Приложение не нотаризовано. При первом запуске: правый клик → **Open**, либо снимите quarantine:
+Приложение не нотаризовано. Если macOS Gatekeeper заблокирует первый запуск, нажмите **«Готово»** → **Системные настройки → Конфиденциальность и безопасность → «Всё равно открыть»**, либо снимите quarantine:
 
 ```sh
 xattr -dr com.apple.quarantine build/Cadence.app
