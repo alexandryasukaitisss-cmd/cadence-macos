@@ -115,7 +115,7 @@ struct NowPlayingBar: View {
                     .foregroundStyle(snapshot.source.accent)
                     .padding(.horizontal, 6)
                     .padding(.vertical, 2)
-                    .background(snapshot.source.accent.opacity(0.12), in: Capsule())
+                    .background(snapshot.source.accent.opacity(0.12), in: RoundedRectangle(cornerRadius: 6, style: .continuous))
                 }
                 Spacer(minLength: 0)
             }
@@ -171,7 +171,7 @@ struct NowPlayingBar: View {
 
             HStack(spacing: 8) {
                 Text(snapshot.position.musicDurationText)
-                    .font(.system(size: 9.5, weight: .medium, design: .monospaced))
+                    .font(.system(size: 9.5, weight: .medium)).monospacedDigit()
                     .foregroundStyle(.tertiary)
                     .frame(width: 36, alignment: .trailing)
 
@@ -190,7 +190,7 @@ struct NowPlayingBar: View {
                 .disabled(!snapshot.canSeek)
 
                 Text(snapshot.duration.musicDurationText)
-                    .font(.system(size: 9.5, weight: .medium, design: .monospaced))
+                    .font(.system(size: 9.5, weight: .medium)).monospacedDigit()
                     .foregroundStyle(.tertiary)
                     .frame(width: 38, alignment: .leading)
             }

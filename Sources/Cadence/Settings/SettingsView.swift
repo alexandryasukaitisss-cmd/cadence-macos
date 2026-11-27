@@ -31,31 +31,32 @@ private struct GeneralSettingsView: View {
             }
 
             Section("Интерфейс") {
-                HStack {
+                LabeledContent {
+                    Button(model.showMiniPlayer ? "Скрыть" : "Открыть") {
+                        model.toggleMiniPlayer()
+                    }
+                    .controlSize(.small)
+                } label: {
                     VStack(alignment: .leading, spacing: 2) {
                         Text("Мини-плеер")
                         Text("Плавающее окно поверх всех приложений.")
                             .font(.system(size: 11))
                             .foregroundStyle(.secondary)
                     }
-                    Spacer()
-                    Button(model.showMiniPlayer ? "Скрыть" : "Открыть") {
-                        model.toggleMiniPlayer()
-                    }
-                    .controlSize(.small)
                 }
-                HStack {
+
+                LabeledContent {
+                    Toggle("", isOn: $model.showSidebar)
+                        .labelsHidden()
+                        .toggleStyle(.switch)
+                        .controlSize(.small)
+                } label: {
                     VStack(alignment: .leading, spacing: 2) {
                         Text("Боковое меню")
                         Text("Медиатека, плейлисты и разделы.")
                             .font(.system(size: 11))
                             .foregroundStyle(.secondary)
                     }
-                    Spacer()
-                    Toggle("", isOn: $model.showSidebar)
-                        .labelsHidden()
-                        .toggleStyle(.switch)
-                        .controlSize(.small)
                 }
             }
 
@@ -76,11 +77,11 @@ private struct GeneralSettingsView: View {
             Text(title)
             Spacer()
             Text(shortcut)
-                .font(.system(size: 11, weight: .medium, design: .rounded))
+                .font(.system(size: 11, weight: .medium)).monospacedDigit()
                 .foregroundStyle(.secondary)
                 .padding(.horizontal, 6)
                 .padding(.vertical, 3)
-                .background(Color.primary.opacity(0.05), in: RoundedRectangle(cornerRadius: 4, style: .continuous))
+                .background(Color.primary.opacity(0.05), in: RoundedRectangle(cornerRadius: 6, style: .continuous))
         }
     }
 }
@@ -113,39 +114,43 @@ private struct MusicSettingsView: View {
                 }
                 if let library = model.library {
                     LabeledContent("Треки", value: "\(library.songs.count)")
+                        .monospacedDigit()
                     LabeledContent("Альбомы", value: "\(library.albums.count)")
+                        .monospacedDigit()
                     LabeledContent("Исполнители", value: "\(library.artists.count)")
+                        .monospacedDigit()
                     LabeledContent("Плейлисты", value: "\(library.userPlaylists.count)")
+                        .monospacedDigit()
                 }
             }
 
-            Section("Качество стриминга") {
+            Section {
                 LabeledContent("Музыка", value: "Наследуется из Music.app")
                 LabeledContent("Lossless", value: StreamingQuality.losslessEnabled ? "включён" : "выключен")
                 LabeledContent("Dolby Atmos", value: StreamingQuality.atmosDownloadsEnabled ? "включён" : "выключен")
-                Text("Профиль задаётся в Music → Настройки → Воспроизведение. Cadence его не меняет; подкасты Apple выбирает адаптивно.")
-                    .font(.system(size: 11))
-                    .foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
-                Text("При запуске Cadence Music не открывается: показывается кэш. Music запускается скрыто по Play, «Подключить» или «Открыть Music».")
-                    .font(.system(size: 11))
-                    .foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
                 Button("Открыть Music") { model.openMusicApp() }
                     .controlSize(.small)
+            } header: {
+                Text("Качество стриминга")
+            } footer: {
+                Text("Профиль задаётся в Music → Настройки → Воспроизведение. При запуске Cadence показывает кэш; Music запускается скрыто по Play, «Подключить» или «Открыть Music».")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
             }
 
-            Section("Music.app") {
+            Section {
                 LabeledContent("Регион каталога", value: model.catalogCountry.uppercased())
-                Text("Cadence управляет Music через AppleScript. AppleScript-доступ к медиатеке требует разрешения Automation; веб-каталог Apple Music в WKWebView пока не используется.")
-                    .font(.system(size: 11))
-                    .foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
                 HStack {
                     Button("Открыть Music") { model.openMusicApp() }
                     Button("Настройки автоматизации") { model.openAutomationSettings() }
                 }
                 .controlSize(.small)
+            } header: {
+                Text("Music.app")
+            } footer: {
+                Text("Cadence управляет Music через AppleScript. Доступ к медиатеке требует разрешения Automation; веб-каталог Apple Music в WKWebView не используется.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
             }
         }
         .formStyle(.grouped)
@@ -174,23 +179,19 @@ private struct MusicSettingsView: View {
 private struct PodcastSettingsView: View {
     var body: some View {
         Form {
-            Section("Apple Podcasts") {
-                Text("Cadence не встраивает веб-плеер и не принимает данные аккаунта Apple. Кнопка открывает официальный каталог в браузере по умолчанию.")
-                    .font(.system(size: 11))
-                    .foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
+            Section {
                 Button("Открыть Apple Podcasts") {
                     if let url = URL(string: "https://podcasts.apple.com/") {
                         NSWorkspace.shared.open(url)
                     }
                 }
                 .controlSize(.small)
-            }
-            Section("Границы версии") {
-                Text("Встроенный плеер, вход, синхронизация подписок и продолжение эпизода появятся только после отдельной проверки правил Apple и реального сценария входа.")
-                    .font(.system(size: 11))
+            } header: {
+                Text("Apple Podcasts")
+            } footer: {
+                Text("Cadence не встраивает веб-плеер и не принимает данные аккаунта Apple. Кнопка открывает официальный каталог в браузере по умолчанию. Встроенный плеер и синхронизация подписок появятся после отдельной проверки сценария входа.")
+                    .font(.caption)
                     .foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
             }
         }
         .formStyle(.grouped)
@@ -199,6 +200,10 @@ private struct PodcastSettingsView: View {
 
 private struct AboutSettingsView: View {
     @EnvironmentObject private var model: AppModel
+
+    private var appVersion: String {
+        (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String) ?? "0.2.1"
+    }
 
     var body: some View {
         VStack(spacing: 14) {
@@ -218,10 +223,8 @@ private struct AboutSettingsView: View {
             .frame(width: 64, height: 64)
             .padding(.top, 12)
 
-            Text("Cadence")
-                .font(.system(size: 24, weight: .bold))
-            Text("Версия 0.2.0 · нативная медиатека Apple Music")
-                .font(.system(size: 11))
+            Text("Версия \(appVersion) · нативная медиатека Apple Music")
+                .font(.system(size: 11.5, weight: .medium)).monospacedDigit()
                 .foregroundStyle(.secondary)
 
             VStack(alignment: .leading, spacing: 8) {

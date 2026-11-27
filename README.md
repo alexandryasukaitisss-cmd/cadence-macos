@@ -12,7 +12,7 @@ Cadence opens your Music.app library in a fast native window: songs, albums, art
 
 Playback stays in Music.app. Your Apple Music subscription, Lossless, and Dolby Atmos settings keep working as Apple implements them; Cadence only sends play, pause, next, and seek commands.
 
-Version 0.2.0. macOS 14 or newer. Not affiliated with Apple.
+Version 0.2.1. macOS 14 or newer. Not affiliated with Apple.
 
 Русская версия: [README.ru.md](README.ru.md).
 
@@ -24,7 +24,7 @@ Version 0.2.0. macOS 14 or newer. Not affiliated with Apple.
 brew install --cask alexandryasukaitisss-cmd/tap/cadence
 ```
 
-Or download `Cadence-0.2.0-macos-arm64.zip` from [GitHub Releases](https://github.com/alexandryasukaitisss-cmd/cadence-macos/releases/latest), unzip, and move `Cadence.app` to `/Applications`.
+Or download `Cadence-0.2.1-macos-arm64.zip` from [GitHub Releases](https://github.com/alexandryasukaitisss-cmd/cadence-macos/releases/latest), unzip, and move `Cadence.app` to `/Applications`.
 
 > [!NOTE]
 > **First launch on macOS (not Apple-notarized):** Prebuilt releases are ad-hoc signed, so macOS Gatekeeper will show *"Apple could not verify 'Cadence' is free of malware"* on first launch. To open it once:

@@ -92,14 +92,14 @@ private struct MiniPlayerView: View {
             }
         }
         .frame(width: 386, height: 118)
-        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 10, style: .continuous))
         .overlay(
-            RoundedRectangle(cornerRadius: 16, style: .continuous)
+            RoundedRectangle(cornerRadius: 10, style: .continuous)
                 .strokeBorder(Color.primary.opacity(0.12), lineWidth: 1)
         )
         .overlay(alignment: .top) {
             if let accent = playback.snapshot?.source.accent {
-                Capsule()
+                RoundedRectangle(cornerRadius: 6, style: .continuous)
                     .fill(accent)
                     .frame(width: 56, height: 2)
                     .padding(.top, 1)
@@ -165,8 +165,8 @@ private struct MiniPlayerView: View {
 
             GeometryReader { proxy in
                 ZStack(alignment: .leading) {
-                    Capsule().fill(Color.primary.opacity(0.08))
-                    Capsule()
+                    RoundedRectangle(cornerRadius: 6, style: .continuous).fill(Color.primary.opacity(0.08))
+                    RoundedRectangle(cornerRadius: 6, style: .continuous)
                         .fill(snapshot.source.accent)
                         .frame(width: max(0, proxy.size.width * snapshot.progress))
                 }
@@ -180,13 +180,14 @@ private struct MiniPlayerView: View {
                 model.hideMiniPlayer()
             } label: {
                 Image(systemName: "xmark")
-                    .font(.system(size: 8, weight: .bold))
+                    .font(.system(size: 9, weight: .bold))
                     .foregroundStyle(.secondary)
-                    .frame(width: 18, height: 18)
-                    .background(Color.primary.opacity(0.06), in: Circle())
+                    .frame(width: 24, height: 24)
+                    .background(Color.primary.opacity(0.06), in: RoundedRectangle(cornerRadius: 6, style: .continuous))
+                    .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
-            .padding(7)
+            .padding(6)
             .help("Закрыть мини-плеер")
         }
         .contentShape(Rectangle())
@@ -218,10 +219,12 @@ private struct MiniPlayerView: View {
                 Image(systemName: "xmark")
                     .font(.system(size: 9, weight: .bold))
                     .foregroundStyle(.secondary)
-                    .frame(width: 20, height: 20)
-                    .background(Color.primary.opacity(0.06), in: Circle())
+                    .frame(width: 24, height: 24)
+                    .background(Color.primary.opacity(0.06), in: RoundedRectangle(cornerRadius: 6, style: .continuous))
+                    .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
+            .help("Закрыть мини-плеер")
         }
         .padding(12)
     }

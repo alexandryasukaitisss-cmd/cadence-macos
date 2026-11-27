@@ -31,8 +31,8 @@ struct RootView: View {
                     .font(.system(size: 12, weight: .medium))
                     .padding(.horizontal, 14)
                     .padding(.vertical, 8)
-                    .background(.regularMaterial, in: Capsule())
-                    .overlay(Capsule().strokeBorder(Color.primary.opacity(0.08), lineWidth: 1))
+                    .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 6, style: .continuous))
+                    .overlay(RoundedRectangle(cornerRadius: 6, style: .continuous).strokeBorder(Color.primary.opacity(0.08), lineWidth: 1))
                     .shadow(color: .black.opacity(0.14), radius: 14, y: 6)
                     .padding(.bottom, Theme.playerHeight + 18)
                     .transition(.move(edge: .bottom).combined(with: .opacity))
@@ -111,7 +111,7 @@ private struct AppTitleBar: View {
                     .foregroundStyle(.secondary)
                     .padding(.horizontal, 9)
                     .frame(height: 26)
-                    .background(Color.primary.opacity(0.05), in: Capsule())
+                    .background(Color.primary.opacity(0.05), in: RoundedRectangle(cornerRadius: 6, style: .continuous))
                 }
                 .buttonStyle(.plain)
                 .help("Поиск и команды (⌘K)")
@@ -177,8 +177,8 @@ private struct SourceSwitcher: View {
             switcherButton(.podcasts, title: "Подкасты", icon: "mic.fill")
         }
         .padding(3)
-        .background(Color.primary.opacity(0.055), in: Capsule())
-        .overlay(Capsule().strokeBorder(Color.primary.opacity(0.06), lineWidth: 1))
+        .background(Color.primary.opacity(0.055), in: RoundedRectangle(cornerRadius: 6, style: .continuous))
+        .overlay(RoundedRectangle(cornerRadius: 6, style: .continuous).strokeBorder(Color.primary.opacity(0.06), lineWidth: 1))
     }
 
     private func switcherButton(_ source: PlaybackSource, title: String, icon: String) -> some View {
@@ -199,12 +199,12 @@ private struct SourceSwitcher: View {
             .frame(height: 26)
             .background {
                 if selected {
-                    Capsule()
+                    RoundedRectangle(cornerRadius: 5, style: .continuous)
                         .fill(source.accent)
                         .matchedGeometryEffect(id: "source-pill", in: namespace)
                 }
             }
-            .contentShape(Capsule())
+            .contentShape(RoundedRectangle(cornerRadius: 5, style: .continuous))
         }
         .buttonStyle(.plain)
         .accessibilityLabel(title)
